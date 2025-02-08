@@ -19,8 +19,7 @@ This AI-powered Resume ATS (Applicant Tracking System) helps job seekers optimiz
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/yourusername/resume-ats-gemini.git  
-cd resume-ats-gemini  
+git clone https://github.com/BatchuMamatha/ATS-Resume.git
 ```
 
 ### 2️⃣ Create a Virtual Environment (Recommended: Conda)
