@@ -25,11 +25,11 @@ git clone https://github.com/BatchuMamatha/ATS-Resume.git
 ### 2️⃣ Create a Virtual Environment (Recommended: Conda)
 #### Using Conda:
 ```bash
-# Create a new environment named 'resume-ats'
-conda create --name resume-ats python=3.10  
+# Create a new environment named 'venv'
+conda create --name venv python=3.10  
 
 # Activate the environment  
-conda activate resume-ats  
+conda activate venv  
 ```
 #### Alternatively, using venv:
 ```bash
