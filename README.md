@@ -1,65 +1,111 @@
-# ATS Resume Analyzer (Streamlit + Gemini)
+# ATS Resume Analyzer
 
-A Streamlit app that compares a resume PDF against a job description and provides ATS-focused feedback, recruiter-style critique, and an ATS-oriented DOCX draft.
+An AI-assisted Streamlit app that evaluates a resume against a job description, highlights ATS gaps, and generates a structured ATS-focused resume draft.
 
-## What the app does
+## Project
 
-From `resume.py`, the app currently supports:
+This project is designed to help candidates improve resume-to-job alignment by combining:
+- ATS-style scoring heuristics
+- Keyword and skill gap detection
+- Recruiter-style critical feedback
+- AI-powered and local fallback analysis paths
+- Downloadable ATS-optimized DOCX resume output
 
-- Resume summary
-- Match percentage estimate
-- Missing keyword detection
-- Skill improvement suggestions
-- Recruiter-style critique (shortlisting gaps, STAR/XYZ issues, ATS risks)
-- ATS resume draft generation (preview + downloadable `.docx`)
-- Custom Q&A over resume + JD
-- Local fallback analysis when Gemini is unavailable
+## Features
 
-## Tech stack
+- Upload and parse resume content from PDF files
+- Analyze resume fit against a pasted job description
+- Generate:
+  - Resume summary
+  - Match percentage estimate
+  - Missing keyword insights
+  - Skill improvement suggestions
+  - Recruiter critique
+- Build an ATS-focused resume draft with:
+  - In-app preview
+  - Downloadable `.docx` output
+- Ask custom Q&A prompts using resume + JD context
+- Fall back to local logic when Gemini output is unavailable
 
-- Python
-- Streamlit
-- Google Generative AI (`gemini-1.5-flash`)
-- PyMuPDF (`fitz`) for PDF text extraction
-- `python-docx` for DOCX generation
+## Tech Stack
 
-## Repository files
+- **Language:** Python
+- **UI Framework:** Streamlit
+- **AI Model Integration:** Google Generative AI (`gemini-1.5-flash`)
+- **PDF Processing:** PyMuPDF (`fitz`)
+- **Document Export:** `python-docx`
 
-- `/home/runner/work/ATS-Resume/ATS-Resume/resume.py` – main Streamlit application and analysis logic
-- `/home/runner/work/ATS-Resume/ATS-Resume/requirements.txt` – Python dependencies
-- `/home/runner/work/ATS-Resume/ATS-Resume/.env` – sample API key variable
-- `/home/runner/work/ATS-Resume/ATS-Resume/README.md` – project documentation
+## Getting Started
 
-## Setup
-
-1. Clone and enter the project directory.
-2. (Recommended) Create and activate a virtual environment.
+1. Clone the repository and move into the project directory.
+2. (Recommended) Create and activate a Python virtual environment.
 3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Configure API key:
-
-- Current code reads `API_KEY` directly from `resume.py`.
-- `.env` contains `API_KEY="YOUR_API_KEY"`, but `resume.py` does not currently load from `.env`.
-
-5. Run the app:
+4. Start the app:
 
 ```bash
 streamlit run resume.py
 ```
 
+## Prerequisites
+
+- Python 3.9+ (recommended)
+- `pip` package manager
+- Internet access for Gemini-backed responses
+- A valid Gemini API key configured in the app runtime path used by `resume.py`
+
 ## Usage
 
-1. Paste a job description.
-2. Upload a text-based PDF resume.
-3. Use analysis buttons to review ATS fit, missing keywords, and recruiter feedback.
-4. Generate ATS resume draft and download DOCX.
+1. Launch the app.
+2. Paste the target job description.
+3. Upload a text-readable PDF resume.
+4. Use the action buttons to run analysis (summary, match, critique, keywords, skills).
+5. Generate and review the ATS draft.
+6. Download the generated DOCX file.
+7. Optionally ask custom resume/JD questions in the Q&A section.
 
-## Notes
+## Roadmap
 
-- ATS score is an estimate, not a guarantee.
-- If Gemini fails or is not configured, the app uses local fallback logic.
-- DOCX export requires `python-docx` (already listed in `requirements.txt`).
+- Move API key handling to environment-variable-first loading
+- Improve scoring transparency and explainability
+- Add support for multi-format resume uploads (DOCX/TXT)
+- Add automated tests for parser and scoring helpers
+- Introduce modular package structure beyond a single-file app
+- Add deployment-ready configuration and CI checks
+
+## Architecture
+
+Current implementation is centered in `resume.py`:
+
+- **UI Layer (Streamlit):**
+  - Input collection for job description and PDF
+  - Action buttons and output rendering
+  - Resume draft preview and download flow
+- **Extraction Layer:**
+  - PDF text extraction via PyMuPDF
+  - Resume section parsing and normalization helpers
+- **Analysis Layer:**
+  - ATS estimate, missing keyword detection, and recruiter-style review helpers
+  - Prompt builders for AI-assisted workflows
+- **Generation Layer:**
+  - Resume blueprint creation
+  - Preview text rendering
+  - DOCX byte generation for download
+- **Response Layer:**
+  - Gemini model response handling
+  - Local fallback responses when AI output is unavailable
+
+## Contributing
+
+Contributions are welcome.
+
+1. Fork the repository.
+2. Create a feature/fix branch in your fork.
+3. Make focused, well-tested changes.
+4. Open a pull request with a clear summary of what changed and why.
+
+For documentation improvements, keep section structure consistent and ensure usage instructions stay aligned with actual app behavior.
