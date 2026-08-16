@@ -8,6 +8,9 @@ import fitz
 import google.generativeai as genai
 import streamlit as st
 
+# Set page config as the very first Streamlit command
+st.set_page_config(page_title="AI Resume ATS", page_icon="📄", layout="wide")
+
 try:
     from docx import Document
     from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -22,13 +25,35 @@ except ImportError:
     DOCX_READY = False
 
 
-API_KEY = "AIzaSyCCLkm_f5S2bGFa4aaZdD0fyK9W1sLHdcI"
+# Load API Key from environment, secrets, or fallback
+API_KEY = os.environ.get("GEMINI_API_KEY")
+if not API_KEY:
+    try:
+        API_KEY = st.secrets.get("GEMINI_API_KEY")
+    except Exception:
+        pass
+if not API_KEY:
+    API_KEY = "AIzaSyCCLkm_f5S2bGFa4aaZdD0fyK9W1sLHdcI"
+
+# Sidebar API Key Override Input
+custom_key = st.sidebar.text_input(
+    "🔑 Gemini API Key (optional)",
+    value="",
+    type="password",
+    help="Enter your Gemini API key to override the default credentials."
+)
+if custom_key:
+    API_KEY = custom_key
+
 GENAI_READY = bool(API_KEY) and "your_" not in API_KEY.lower()
 
 model = None
 if GENAI_READY:
-    genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    try:
+        genai.configure(api_key=API_KEY)
+        model = genai.GenerativeModel("gemini-1.5-flash")
+    except Exception as e:
+        st.sidebar.error(f"Failed to configure Gemini: {e}")
 
 
 STOP_WORDS = {
@@ -770,8 +795,6 @@ def get_gemini_response(prompt, max_lines=15):
     except Exception:
         return _local_fallback_response(prompt, max_lines=max_lines)
 
-
-st.set_page_config(page_title="AI Resume ATS", page_icon="📄", layout="wide")
 
 st.markdown(
     """
